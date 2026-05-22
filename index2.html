@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Liên Hệ Nike Store</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#f5f5f5;
+}
+
+/* HEADER */
+
+header{
+  background:black;
+  color:white;
+  padding:20px 50px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header h1{
+  font-size:38px;
+}
+
+nav{
+  display:flex;
+  gap:20px;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  font-size:18px;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+nav a:hover{
+  color:#ccc;
+}
+
+/* HERO */
+
+.hero{
+  height:350px;
+  background:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop') center/cover;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  color:white;
+  text-align:center;
+}
+
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+}
+
+.hero h2{
+  font-size:55px;
+  margin-bottom:15px;
+}
+
+.hero p{
+  font-size:22px;
+}
+
+/* CONTACT */
+
+.contact-section{
+  padding:70px 20px;
+}
+
+.contact-box{
+  max-width:900px;
+  margin:auto;
+  background:white;
+  border-radius:25px;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.contact-info{
+  background:black;
+  color:white;
+  padding:50px;
+}
+
+.contact-info h3{
+  font-size:35px;
+  margin-bottom:25px;
+}
+
+.contact-info p{
+  margin-bottom:20px;
+  font-size:18px;
+  line-height:1.7;
+  color:#ccc;
+}
+
+.contact-form{
+  padding:50px;
+}
+
+.contact-form h3{
+  font-size:35px;
+  margin-bottom:25px;
+}
+
+.contact-form input,
+.contact-form textarea{
+  width:100%;
+  padding:15px;
+  margin-bottom:20px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+
+.contact-form textarea{
+  resize:none;
+  height:140px;
+}
+
+.btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:12px;
+  background:black;
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.03);
+}
+
+#result{
+  margin-top:20px;
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* FOOTER */
+
+footer{
+  background:black;
+  color:#aaa;
+  text-align:center;
+  padding:25px;
+  margin-top:50px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  header{
+    flex-direction:column;
+    gap:15px;
+  }
+
+  .hero h2{
+    font-size:40px;
+  }
+
+  .contact-box{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <h1>Chill guys</h1>
+
+  <nav>
+
+    <a href="index.html">Trang Chủ</a>
+
+    <a href="index4.html">Sản Phẩm</a>
+
+    <a href="index2.html">Liên Hệ</a>
+
+    <a href="index3.html">Đăng Xuất</a>
+
+  </nav>
+
+</header>
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="hero-content">
+
+    <h2>Liên Hệ Với Chúng Tôi</h2>
+
+    <p>Hỗ trợ nhanh chóng và tư vấn miễn phí</p>
+
+  </div>
+
+</section>
+
+<!-- CONTACT -->
+
+<section class="contact-section">
+
+  <div class="contact-box">
+
+    <!-- INFO -->
+
+    <div class="contact-info">
+
+      <h3>Thông Tin Liên Hệ</h3>
+
+      <p>
+        📍 Địa chỉ:
+        123 Chill guys, TP.HCM
+      </p>
+
+      <p>
+        📞 Hotline:
+        0123 456 789
+      </p>
+
+      <p>
+        📧 Email:
+        chillguysstore@gmail.com
+      </p>
+
+      <p>
+        🚚 Hỗ trợ giao hàng toàn quốc
+      </p>
+
+      <p>
+        ⏰ Thời gian làm việc:
+        8:00 - 22:00
+      </p>
+
+    </div>
+
+    <!-- FORM -->
+
+    <div class="contact-form">
+
+      <h3>Gửi Tin Nhắn</h3>
+
+      <input
+      type="text"
+      id="name"
+      placeholder="Họ và tên">
+
+      <input
+      type="email"
+      id="email"
+      placeholder="Email">
+
+      <textarea
+      id="message"
+      placeholder="Nhập nội dung..."></textarea>
+
+      <button class="btn"
+      onclick="sendMessage()">
+
+        Gửi Tin Nhắn
+
+      </button>
+
+      <div id="result"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+
+  © 2026 Nike Store
+
+</footer>
+
+<script>
+
+function sendMessage(){
+
+  const name =
+  document.getElementById('name');
+
+  const email =
+  document.getElementById('email');
+
+  const message =
+  document.getElementById('message');
+
+  const result =
+  document.getElementById('result');
+
+  if(
+    name.value === '' ||
+    email.value === '' ||
+    message.value === ''
+  ){
+
+    result.innerHTML =
+    '⚠️ Vui lòng nhập đầy đủ thông tin!';
+
+    result.style.color = 'red';
+
+    return;
+
+  }
+
+  result.innerHTML =
+  '✅ Gửi tin nhắn thành công!';
+
+  result.style.color = 'green';
+
+  name.value = '';
+  email.value = '';
+  message.value = '';
+
+}
+
+</script>
+
+</body>
+</html>

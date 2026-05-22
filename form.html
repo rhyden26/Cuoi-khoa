@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Giày - Login</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#f2f2f2;
+    }
+
+    .container{
+      width:350px;
+      background:white;
+      padding:30px;
+      border-radius:15px;
+      box-shadow:0 0 15px rgba(0,0,0,0.2);
+    }
+
+    h2{
+      text-align:center;
+      margin-bottom:20px;
+    }
+
+    input{
+      width:100%;
+      padding:12px;
+      margin:10px 0;
+      border:1px solid #ccc;
+      border-radius:8px;
+    }
+
+    button{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      background:black;
+      color:white;
+      cursor:pointer;
+      margin-top:10px;
+      font-size:16px;
+    }
+
+    button:hover{
+      opacity:0.8;
+    }
+
+    p{
+      text-align:center;
+      margin-top:10px;
+    }
+
+    a{
+      color:blue;
+      cursor:pointer;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    #signupMessage,
+    #loginMessage{
+      color:red;
+      font-size:14px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- SIGN UP -->
+    <div id="signupBox">
+
+      <h2>Đăng ký</h2>
+
+      <input type="email"
+      id="signupEmail"
+      placeholder="Nhập email">
+
+      <input type="password"
+      id="signupPassword"
+      placeholder="Nhập mật khẩu">
+
+      <button id="signupBtn">
+        Đăng ký
+      </button>
+
+      <p>
+        Đã có tài khoản?
+        <a onclick="showLogin()">
+          Đăng nhập
+        </a>
+      </p>
+
+      <p id="signupMessage"></p>
+
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginBox" class="hidden">
+
+      <h2>Đăng nhập</h2>
+
+      <input type="email"
+      id="loginEmail"
+      placeholder="Nhập email">
+
+      <input type="password"
+      id="loginPassword"
+      placeholder="Nhập mật khẩu">
+
+      <button id="loginBtn">
+        Đăng nhập
+      </button>
+
+      <p>
+        Chưa có tài khoản?
+        <a onclick="showSignup()">
+          Đăng ký
+        </a>
+      </p>
+
+      <p id="loginMessage"></p>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    // hiện form login
+    function showLogin(){
+
+      document
+      .getElementById("signupBox")
+      .classList.add("hidden");
+
+      document
+      .getElementById("loginBox")
+      .classList.remove("hidden");
+
+    }
+
+    // hiện form signup
+    function showSignup(){
+
+      document
+      .getElementById("loginBox")
+      .classList.add("hidden");
+
+      document
+      .getElementById("signupBox")
+      .classList.remove("hidden");
+
+    }
+
+    // đăng ký
+    document
+    .getElementById("signupBtn")
+    .addEventListener("click", () => {
+
+      const email =
+      document.getElementById("signupEmail").value;
+
+      const password =
+      document.getElementById("signupPassword").value;
+
+      const message =
+      document.getElementById("signupMessage");
+
+      if(email === "" || password === ""){
+
+        message.innerText =
+        "Vui lòng nhập đầy đủ";
+
+        return;
+      }
+
+      let users =
+      JSON.parse(localStorage.getItem("users"))
+      || [];
+
+      // kiểm tra email đã tồn tại
+      let checkUser =
+      users.find(user =>
+        user.email === email
+      );
+
+      if(checkUser){
+
+        message.innerText =
+        "Email đã tồn tại";
+
+      }else{
+
+        users.push({
+          email: email,
+          password: password
+        });
+
+        localStorage.setItem(
+          "users",
+          JSON.stringify(users)
+        );
+
+        message.style.color = "green";
+
+        message.innerText =
+        "Đăng ký thành công";
+
+      }
+
+    });
+
+    // đăng nhập
+    document
+    .getElementById("loginBtn")
+    .addEventListener("click", () => {
+
+      const email =
+      document.getElementById("loginEmail").value;
+
+      const password =
+      document.getElementById("loginPassword").value;
+
+      const message =
+      document.getElementById("loginMessage");
+
+      let users =
+      JSON.parse(localStorage.getItem("users"))
+      || [];
+
+      let user =
+      users.find(user =>
+        user.email === email &&
+        user.password === password
+      );
+
+      if(user){
+
+        message.style.color = "green";
+
+        message.innerText =
+        "Đăng nhập thành công";
+
+        // chuyển sang index.html
+        setTimeout(() => {
+
+          window.location.href =
+          "index.html";
+
+        },1000);
+
+      }else{
+
+        message.innerText =
+        "Sai email hoặc mật khẩu";
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
