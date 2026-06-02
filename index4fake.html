@@ -69,7 +69,7 @@
 
     .hero-content {
       position: relative;
- z-index: 2;
+      z-index: 2;
     }
 
     .hero h2 {
@@ -150,6 +150,13 @@
 
     .btn:hover {
       opacity: 0.8;
+    }
+
+    /* CSS class cho nút hết hàng */
+    .btn.btn-disabled {
+      background: #ccc;
+      color: #666;
+      cursor: not-allowed;
     }
 
     /* BẢNG GIỎ HÀNG CHÍNH GIỮA MÀN HÌNH CHỨA CẢ TABS */
@@ -414,7 +421,7 @@
       color: #fff;
       padding: 15px 25px;
       border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -423,6 +430,10 @@
       opacity: 0;
       transform: translateX(100%);
       animation: slideIn 0.3s forwards, fadeOut 0.3s linear 2.2s forwards;
+    }
+
+    .toast.toast-error {
+      border-left-color: #ef4444;
     }
 
     @keyframes slideIn {
@@ -550,7 +561,34 @@
   </footer>
 
   <script type="module">
-    // Hàm Đóng / Mở Bảng Điều Hướng Giỏ Hàng
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      onValue,
+      push,
+      set
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA4kJDVG7XBWv3gFSdkCdQA_k9Df2qOj4k",
+      authDomain: "quanganh-dc7c4.firebaseapp.com",
+      databaseURL: "https://quanganh-dc7c4-default-rtdb.firebaseio.com",
+      projectId: "quanganh-dc7c4",
+      storageBucket: "quanganh-dc7c4.firebasestorage.app",
+      messagingSenderId: "45936787005",
+      appId: "1:45936787005:web:dd351641ab446b83e63454"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const productContainer = document.getElementById("products");
+    let cart = [];
+    let globalProductsData = {}; // Lưu trữ dữ liệu sản phẩm realtime từ Firebase để đối chiếu kho
+
+    // --- ĐĂNG KÝ HÀM TOÀN CỤC (WINDOW) ĐỂ THẺ HTML GỌI ĐƯỢC ---
+
     window.toggleCart = function () {
       const modal = document.getElementById("cartModal");
       const overlay = document.getElementById("globalOverlay");
@@ -560,7 +598,6 @@
         overlay.style.display = "none";
         setTimeout(() => { modal.style.display = "none"; }, 300);
       } else {
-        // Luôn mở mặc định lại tab giỏ hàng khi người dùng bấm vào nút logo
         switchTab('cart');
         modal.style.display = "flex";
         overlay.style.display = "block";
@@ -568,7 +605,6 @@
       }
     };
 
-    // Hàm đổi Tab qua lại giữa Giỏ hàng và Lịch sử
     window.switchTab = function (tabName) {
       const tabs = document.querySelectorAll(".tab-btn");
       const contents = document.querySelectorAll(".tab-content");
@@ -587,7 +623,7 @@
 
     window.clearCart = function () {
       if (cart.length === 0) {
-        showToast("❌ Giỏ hàng đã trống sẵn rồi!");
+        showToast("❌ Giỏ hàng đã trống sẵn rồi!", true);
         return;
       }
       if (confirm("Bạn có chắc muốn xóa TOÀN BỘ sản phẩm trong giỏ hàng?")) {
@@ -604,29 +640,154 @@
       showToast("🗑️ Đã xóa " + removedName + " khỏi giỏ!");
     };
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    // ĐÃ NÂNG CẤP: Nhận thêm biến id để quản lý kho chính xác
+    window.addToCart = function (id, name, price, status) {
+      // Tìm xem sản phẩm hiện tại trong Database còn bao nhiêu đôi
+      const dbProduct = globalProductsData[id];
+      const maxAvailable = dbProduct ? Number(dbProduct.quantity) : 0;
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyA4kJDVG7XBWv3gFSdkCdQA_k9Df2qOj4k",
-      authDomain: "quanganh-dc7c4.firebaseapp.com",
-      databaseURL: "https://quanganh-dc7c4-default-rtdb.firebaseio.com",
-      projectId: "quanganh-dc7c4",
-      storageBucket: "quanganh-dc7c4.firebasestorage.app",
-      messagingSenderId: "45936787005",
-      appId: "1:45936787005:web:dd351641ab446b83e63454"
+      if (status === "Hết hàng" || maxAvailable <= 0) {
+        showToast(`❌ Sản phẩm <b>${name}</b> đã hết hàng, không thể mua!`, true);
+        return;
+      }
+
+      let found = cart.find(item => item.id === id);
+
+      if (found) {
+        // Chặn nếu người dùng cố tình bấm thêm vượt số lượng kho hiện có
+        if (found.quantity >= maxAvailable) {
+          showToast(`⚠️ Không thể thêm! Kho hàng chỉ còn đúng ${maxAvailable} đôi sản phẩm này.`, true);
+          return;
+        }
+        found.quantity++;
+      } else {
+        cart.push({ id, name, price, quantity: 1 });
+      }
+
+      renderCart();
+      showToast(`🟢 Đã thêm <b>${name}</b> vào giỏ!`);
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    window.increaseQuantity = function (index) {
+      const item = cart[index];
+      const maxAvailable = globalProductsData[item.id] ? Number(globalProductsData[item.id].quantity) : 0;
 
-    const productContainer = document.getElementById("products");
-    let cart = [];
+      if (item.quantity >= maxAvailable) {
+        showToast(`⚠️ Không thể tăng! Rất tiếc kho hàng chỉ còn tối đa ${maxAvailable} đôi.`, true);
+        return;
+      }
+      item.quantity++;
+      renderCart();
+    };
 
-    function showToast(message) {
+    window.decreaseQuantity = function (index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+      } else {
+        cart.splice(index, 1);
+      }
+      renderCart();
+    };
+
+    window.openPayment = function () {
+      if (cart.length === 0) {
+        showToast("❌ Giỏ hàng đang trống!", true);
+        return;
+      }
+      document.getElementById("paymentScreen").style.display = "flex";
+    };
+
+    window.closePayment = function () {
+      document.getElementById("paymentScreen").style.display = "none";
+    };
+
+    // ĐÃ NÂNG CẤP TOÀN DIỆN: Đặt hàng xong tự trừ kho hàng và tự cập nhật trạng thái "Hết hàng"
+    window.confirmOrder = function () {
+      const name = document.getElementById("customerName").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const date = document.getElementById("deliveryDate").value;
+
+      if (!name || !address || !date) {
+        showToast("⚠️ Vui lòng nhập đầy đủ thông tin!", true);
+        return;
+      }
+
+      // Kiểm tra lại tồn kho một lần nữa trước khi lưu đơn (Đề phòng trường hợp khách ngâm giỏ hàng lâu, người khác mua mất)
+      for (let item of cart) {
+        const maxAvailable = globalProductsData[item.id] ? Number(globalProductsData[item.id].quantity) : 0;
+        if (item.quantity > maxAvailable) {
+          showToast(`❌ Đặt hàng thất bại! Sản phẩm <b>${item.name}</b> vừa hết hàng hoặc số lượng trong kho không đủ!`, true);
+          return;
+        }
+      }
+
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+      });
+
+      const orderData = {
+        customerName: name,
+        address: address,
+        deliveryDate: date,
+        totalPrice: total,
+        items: cart,                      
+        createdAt: new Date().toISOString() 
+      };
+
+      const ordersRef = ref(db, "orders");
+      const newOrderRef = push(ordersRef); 
+      
+      set(newOrderRef, orderData)
+        .then(() => {
+          // --- TIẾN HÀNH TRỪ SỐ LƯỢNG KHO TRÊN FIREBASE ---
+          cart.forEach(item => {
+            const originalProduct = globalProductsData[item.id];
+            if (originalProduct) {
+              const currentQty = Number(originalProduct.quantity);
+              const newQty = Math.max(0, currentQty - item.quantity); // Giảm trừ kho, chặn số âm
+              
+              // Nếu số lượng sau trừ bằng 0, tự động ép trạng thái thành "Hết hàng"
+              let newStatus = originalProduct.status;
+              if (newQty <= 0) {
+                newStatus = "Hết hàng";
+              } else if (newQty > 0 && newQty <= 5) {
+                newStatus = "Sắp hết";
+              }
+
+              // Update dữ liệu ghi đè lên node sản phẩm tương ứng
+              const specificProductRef = ref(db, `products/${item.id}`);
+              set(specificProductRef, {
+                ...originalProduct,
+                quantity: newQty,
+                status: newStatus
+              });
+            }
+          });
+
+          showToast("✅ Đặt hàng thành công! Trạng thái kho hàng đã được cập nhật.");
+          
+          document.getElementById("customerName").value = "";
+          document.getElementById("address").value = "";
+          document.getElementById("deliveryDate").value = "";
+          cart = [];
+          renderCart();
+          closePayment();
+          
+          switchTab('history');
+        })
+        .catch((error) => {
+          console.error("Lỗi cập nhật Firebase: ", error);
+          showToast("❌ Gặp lỗi trong quá trình xử lý đơn hàng, hãy thử lại!", true);
+        });
+    };
+
+    // --- CÁC HÀM TIỆN ÍCH CHẠY NỘI BỘ ---
+
+    function showToast(message, isError = false) {
       const container = document.getElementById("toast-container");
       const toast = document.createElement("div");
-      toast.className = "toast";
+      toast.className = isError ? "toast toast-error" : "toast";
       toast.innerHTML = message;
       
       container.appendChild(toast);
@@ -636,41 +797,80 @@
       }, 2500);
     }
 
+    // ĐÃ SỬA: Đồng bộ hóa cấu trúc dữ liệu theo ID của Firebase
     onValue(ref(db, "products"), (snapshot) => {
       const data = snapshot.val();
       productContainer.innerHTML = "";
-      if (!data) return;
+      if (!data) {
+        globalProductsData = {};
+        return;
+      }
+
+      globalProductsData = data; // Lưu dữ liệu vào biến toàn cục để so khớp kho khi khách chọn tăng giảm
 
       Object.keys(data).forEach(id => {
         const product = data[id];
+        
+        // Đồng bộ hiển thị cưỡng chế: nếu kho bằng 0 thì trạng thái bắt buộc hiển thị là "Hết hàng"
+        const isOut = product.status === "Hết hàng" || Number(product.quantity) <= 0;
+        const btnClass = isOut ? "btn btn-disabled" : "btn";
+        const btnText = isOut ? "Hết Hàng" : "Thêm Vào Giỏ";
+        const displayStatus = isOut ? "Hết hàng" : product.status;
+
         productContainer.innerHTML += `
           <div class="card">
             <img src="${product.image}">
             <div class="card-content">
               <h3>${product.name}</h3>
-              <p class="product-description">Trạng thái: ${product.status}</p>
+              <p class="product-description">Trạng thái: <b>${displayStatus}</b> (${product.quantity} đôi)</p>
               <div class="price">$${product.price}</div>
-              <button class="btn" onclick="addToCart('${product.name}', ${Number(product.price)})">
-                Thêm Vào Giỏ
+              <button class="${btnClass}" onclick="addToCart('${id}', '${product.name}', ${Number(product.price)}, '${displayStatus}')">
+                ${btnText}
               </button>
             </div>
           </div>
         `;
       });
+
+      // Render lại giỏ hàng phòng trường hợp admin đổi số lượng sản phẩm ở dashboard thì giỏ hàng cập nhật theo
+      if(cart.length > 0) {
+        renderCart();
+      }
     });
 
-    window.addToCart = function (name, price) {
-      let found = cart.find(item => item.name === name);
-
-      if (found) {
-        found.quantity++;
-      } else {
-        cart.push({ name, price, quantity: 1 });
+    onValue(ref(db, "orders"), (snapshot) => {
+      const historyList = document.getElementById("historyList");
+      const data = snapshot.val();
+      
+      if (!data) {
+        historyList.innerHTML = `<p style="text-align: center; color: #999; margin-top: 20px;" id="emptyHistoryText">Chưa có lịch sử mua hàng.</p>`;
+        return;
       }
 
-      renderCart();
-      showToast(`🟢 Đã thêm <b>${name}</b> vào giỏ!`);
-    };
+      historyList.innerHTML = ""; 
+
+      const orderedList = Object.keys(data).map(key => data[key]).reverse();
+
+      orderedList.forEach(order => {
+        let productsText = "";
+        if (order.items && Array.isArray(order.items)) {
+          order.items.forEach(item => {
+            productsText += `<p>- ${item.name} (x${item.quantity}) - $${item.price * item.quantity}</p>`;
+          });
+        }
+
+        historyList.innerHTML += `
+          <div class="history-item">
+            <p><strong>👤 Khách hàng:</strong> ${order.customerName}</p>
+            <p><strong>📍 Địa chỉ:</strong> ${order.address}</p>
+            <p><strong>📅 Ngày giao:</strong> ${order.deliveryDate}</p>
+            <p><strong>💰 Tổng tiền:</strong> $${order.totalPrice}</p>
+            <p><strong>🛒 Sản phẩm:</strong></p>
+            ${productsText}
+          </div>
+        `;
+      });
+    });
 
     function renderCart() {
       const cartItems = document.getElementById("cartItems");
@@ -678,7 +878,18 @@
       let total = 0;
       let totalQuantity = 0;
 
+      // Lọc bỏ hoặc giảm số lượng các mặt hàng trong giỏ nếu vượt quá lượng hàng thực tế hiện tại trong kho
       cart.forEach((item, index) => {
+        const dbProduct = globalProductsData[item.id];
+        const maxAvailable = dbProduct ? Number(dbProduct.quantity) : 0;
+        
+        if (maxAvailable <= 0) {
+          cart.splice(index, 1);
+          return;
+        } else if (item.quantity > maxAvailable) {
+          item.quantity = maxAvailable; 
+        }
+
         total += item.price * item.quantity;
         totalQuantity += item.quantity;
         
@@ -708,74 +919,6 @@
         badge.style.display = "none";
       }
     }
-
-    window.increaseQuantity = function (index) {
-      cart[index].quantity++;
-      renderCart();
-    };
-
-    window.decreaseQuantity = function (index) {
-      if (cart[index].quantity > 1) {
-        cart[index].quantity--;
-      } else {
-        cart.splice(index, 1);
-      }
-      renderCart();
-    };
-
-    window.openPayment = function () {
-      if (cart.length === 0) {
-        showToast("❌ Giỏ hàng đang trống!");
-        return;
-      }
-      document.getElementById("paymentScreen").style.display = "flex";
-    };
-
-    window.closePayment = function () {
-      document.getElementById("paymentScreen").style.display = "none";
-    };
-
-    window.confirmOrder = function () {
-      const name = document.getElementById("customerName").value;
-      const address = document.getElementById("address").value;
-      const date = document.getElementById("deliveryDate").value;
-
-      if (!name || !address || !date) {
-        showToast("⚠️ Vui lòng nhập đầy đủ thông tin!");
-        return;
-      }
-
-      let total = 0;
-      let productsText = "";
-
-      cart.forEach(item => {
-        total += item.price * item.quantity;
-        productsText += `<p>- ${item.name} (x${item.quantity}) - $${item.price * item.quantity}</p>`;
-      });
-
-      const emptyText = document.getElementById("emptyHistoryText");
-      if(emptyText) emptyText.remove();
-
-      // Đưa đơn hàng mới vào Tab lịch sử
-      document.getElementById("historyList").innerHTML = `
-        <div class="history-item">
-          <p><strong>👤 Khách hàng:</strong> ${name}</p>
-          <p><strong>📍 Địa chỉ:</strong> ${address}</p>
-          <p><strong>📅 Ngày giao:</strong> ${date}</p>
-          <p><strong>💰 Tổng tiền:</strong> $${total}</p>
-          <p><strong>🛒 Sản phẩm:</strong></p>
-          ${productsText}
-        </div>
-      ` + document.getElementById("historyList").innerHTML;
-
-      showToast("✅ Đặt hàng thành công!");
-      cart = [];
-      renderCart();
-      closePayment();
-      
-      // Chuyển luôn sang tab Lịch Sử để khách hàng kiểm tra đơn vừa mua
-      switchTab('history');
-    };
   </script>
 
 </body>
