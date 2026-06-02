@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thanh toán</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Thanh toán</h1>
+    <div id="user-display"></div>
+  </header>
+  <main>
+    <div id="order-summary"></div>
+    <form id="checkout-form">
+      <label>Họ và tên<input id="fullname" required></label>
+      <label>Địa chỉ<input id="address" required></label>
+      <label>Số điện thoại<input id="phone" required></label>
+      <button type="submit" class="btn">Đặt hàng</button>
+    </form>
+    <div id="message"></div>
+  </main>
+  <script type="module" src="checkout.js"></script>
+</body>
+</html>

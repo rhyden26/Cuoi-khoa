@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop Giày - Login</title>
+  <title>Chill Guys - Login Firebase</title>
 
   <style>
 
@@ -75,8 +75,10 @@
 
     #signupMessage,
     #loginMessage{
-      color:red;
       font-size:14px;
+      margin-top:10px;
+      text-align:center;
+      color:red;
     }
 
   </style>
@@ -143,10 +145,37 @@
 
   </div>
 
-  <script>
+  <!-- FIREBASE -->
+  <script type="module">
+
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // CẤU HÌNH FIREBASE
+    // Thay bằng config của bạn
+  const firebaseConfig = {
+  apiKey: "AIzaSyA4kJDVG7XBWv3gFSdkCdQA_k9Df2qOj4k",
+  authDomain: "quanganh-dc7c4.firebaseapp.com",
+  projectId: "quanganh-dc7c4",
+  storageBucket: "quanganh-dc7c4.firebasestorage.app",
+  messagingSenderId: "45936787005",
+  appId: "1:45936787005:web:dd351641ab446b83e63454",
+  measurementId: "G-KJXXRCYCP8"
+};
+
+    // Khởi tạo Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
     // hiện form login
-    function showLogin(){
+    window.showLogin = function(){
 
       document
       .getElementById("signupBox")
@@ -159,7 +188,7 @@
     }
 
     // hiện form signup
-    function showSignup(){
+    window.showSignup = function(){
 
       document
       .getElementById("loginBox")
@@ -171,7 +200,7 @@
 
     }
 
-    // đăng ký
+    // ĐĂNG KÝ
     document
     .getElementById("signupBtn")
     .addEventListener("click", () => {
@@ -185,51 +214,33 @@
       const message =
       document.getElementById("signupMessage");
 
-      if(email === "" || password === ""){
+      createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
 
-        message.innerText =
-        "Vui lòng nhập đầy đủ";
-
-        return;
-      }
-
-      let users =
-      JSON.parse(localStorage.getItem("users"))
-      || [];
-
-      // kiểm tra email đã tồn tại
-      let checkUser =
-      users.find(user =>
-        user.email === email
-      );
-
-      if(checkUser){
-
-        message.innerText =
-        "Email đã tồn tại";
-
-      }else{
-
-        users.push({
-          email: email,
-          password: password
-        });
-
-        localStorage.setItem(
-          "users",
-          JSON.stringify(users)
-        );
+      .then((userCredential) => {
 
         message.style.color = "green";
 
         message.innerText =
         "Đăng ký thành công";
 
-      }
+      })
+
+      .catch((error) => {
+
+        message.style.color = "red";
+
+        message.innerText =
+        "Tài khoản đã tồn tại hoặc mật khẩu quá yếu"
+
+      });
 
     });
 
-    // đăng nhập
+    // ĐĂNG NHẬP
     document
     .getElementById("loginBtn")
     .addEventListener("click", () => {
@@ -243,24 +254,19 @@
       const message =
       document.getElementById("loginMessage");
 
-      let users =
-      JSON.parse(localStorage.getItem("users"))
-      || [];
+      signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
 
-      let user =
-      users.find(user =>
-        user.email === email &&
-        user.password === password
-      );
-
-      if(user){
+      .then((userCredential) => {
 
         message.style.color = "green";
 
         message.innerText =
         "Đăng nhập thành công";
 
-        // chuyển sang index.html
         setTimeout(() => {
 
           window.location.href =
@@ -268,12 +274,16 @@
 
         },1000);
 
-      }else{
+      })
+
+      .catch((error) => {
+
+        message.style.color = "red";
 
         message.innerText =
-        "Sai email hoặc mật khẩu";
+        "Sai tài khoản hoặc mật khẩu";
 
-      }
+      });
 
     });
 

@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nike Store - Shop Giày</title>
-  <link rel="stylesheet" href="form.html">
 
   <style>
     * {
@@ -243,8 +242,8 @@
     }
 
     footer {
-      background: black;
-      color: #aaa;
+      background: white;
+      color: #0a0a0a;
       text-align: center;
       padding: 25px;
     }
@@ -265,13 +264,13 @@
 <body>
 
   <header>
-    <h1>Chill guys</h1>
+    <h1>Chill Guys</h1>
 
     <nav>
       <a href="#products">Trang chủ</a>
       <a href="form.html">Sản phẩm</a>
       <a href="#about">About Us</a>
-      <a href="form.html  ">Liên hệ</a>
+      <a href="form.html">Liên hệ</a>
       <a href="form.html">Đăng kí và đăng nhập</a>
     </nav>
   </header>
@@ -280,7 +279,6 @@
     <div class="hero-content">
       <h2>Bộ Sưu Tập Giày Mới</h2>
       <p>Phong cách - Cá tính - Chất lượng</p>
-      <button>Mua Ngay</button>
     </div>
   </section>
 
@@ -401,6 +399,7 @@
     </div>
   </section>
 
+
   <section class="about" id="about">
     <h2 class="title">About Us</h2>
 
@@ -410,17 +409,8 @@
     </p>
   </section>
 
-  <section id="contact">
-    <h2 class="title">Liên Hệ</h2>
 
-    <div class="contact-form">
-      <input type="text" placeholder="Họ và tên">
-      <input type="email" placeholder="Email">
-      <textarea rows="5" placeholder="Nội dung"></textarea>
 
-      <button class="btn">Gửi Tin Nhắn</button>
-    </div>
-  </section>
 
   <div id="product-modal"
     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:2000;justify-content:center;align-items:center;">
@@ -543,7 +533,7 @@
       document.getElementById('product-modal').style.display = 'none';
     }
   </script>
-
+  <script type="module" src="./index.js"></script>
 </body>
 
 </html>

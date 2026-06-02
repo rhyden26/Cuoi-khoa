@@ -1,794 +1,800 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Nike Delivery</title>
+  <title>Chill Guys - Nike Store</title>
 
   <style>
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial,sans-serif;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
 
-    body{
-      background:#f5f5f5;
-      color:#222;
+    body {
+      background: #f5f5f5;
     }
 
     /* HEADER */
 
-    header{
-      background:black;
-      color:white;
-      padding:20px 50px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      position:sticky;
-      top:0;
-      z-index:1000;
+    header {
+      background: black;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
-    header h1{
-      font-size:38px;
+    header h1 {
+      font-size: 35px;
     }
 
-    nav{
-      display:flex;
-      gap:20px;
-      align-items:center;
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    nav a{
-      color:white;
-      text-decoration:none;
-      font-size:18px;
-      font-weight:bold;
-      padding:10px 18px;
-      border-radius:10px;
-      transition:0.3s;
-    }
-
-    nav a:hover{
-      background:white;
-      color:black;
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     /* HERO */
 
-    .hero{
-      height:500px;
-      background:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop') center/cover;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      color:white;
-      position:relative;
+    .hero {
+      height: 450px;
+      background: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop') center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      position: relative;
     }
 
-    .hero::before{
-      content:'';
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,0.6);
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
     }
 
-    .hero-content{
-      position:relative;
-      z-index:2;
+    .hero-content {
+      position: relative;
+      z-index: 2;
     }
 
-    .hero h2{
-      font-size:60px;
-      margin-bottom:20px;
+    .hero h2 {
+      font-size: 60px;
     }
 
-    .hero p{
-      font-size:24px;
+    .hero p {
+      font-size: 24px;
+      margin-top: 15px;
     }
 
     /* PRODUCTS */
 
-    section{
-      padding:70px 50px;
+    section {
+      padding: 60px 40px;
     }
 
-    .title{
-      text-align:center;
-      font-size:42px;
-      margin-bottom:50px;
+    .title {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 40px;
     }
 
-    .products{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-      gap:30px;
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
     }
 
-    .card{
-      background:white;
-      border-radius:20px;
-      overflow:hidden;
-      box-shadow:0 5px 15px rgba(0,0,0,0.1);
-      transition:0.3s;
+    .card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      transition: 0.3s;
     }
 
-    .card:hover{
-      transform:translateY(-10px);
+    .card:hover {
+      transform: translateY(-10px);
     }
 
-    .card img{
-      width:100%;
-      height:260px;
-      object-fit:cover;
+    .card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
     }
 
-    .card-content{
-      padding:25px;
-      text-align:center;
+    .card-content {
+      padding: 20px;
     }
 
-    .card-content h3{
-      font-size:32px;
-      margin-bottom:10px;
+    .card-content h3 {
+      font-size: 25px;
+      margin-bottom: 10px;
     }
 
-    .card-content p{
-      color:#555;
-      margin-bottom:15px;
-      font-size:18px;
+    .product-description {
+      color: #666;
+      line-height: 1.7;
     }
 
-    .price{
-      font-size:30px;
-      font-weight:bold;
-      margin-bottom:20px;
+    .price {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 20px 0;
     }
 
-    .btn{
-      padding:14px 35px;
-      border:none;
-      border-radius:12px;
-      background:black;
-      color:white;
-      font-size:18px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.3s;
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 12px;
+      background: black;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      width: 100%;
     }
 
-    .btn:hover{
-      transform:scale(1.05);
+    .btn:hover {
+      opacity: 0.8;
     }
 
-    /* POPUP FORM */
-
-    #delivery{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.7);
-      z-index:2000;
-      justify-content:center;
-      align-items:center;
-      padding:20px;
+    /* BẢNG GIỎ HÀNG CHÍNH GIỮA MÀN HÌNH CHỨA CẢ TABS */
+    .cart-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.7);
+      width: 95%;
+      max-width: 500px;
+      height: 80vh;
+      max-height: 600px;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      padding: 25px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .delivery-box{
-      background:white;
-      width:100%;
-      max-width:600px;
-      padding:35px;
-      border-radius:20px;
-      position:relative;
-      animation:show 0.3s;
+    .cart-modal.open {
+      display: flex;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
     }
 
-    @keyframes show{
-
-      from{
-        transform:scale(0.8);
-        opacity:0;
-      }
-
-      to{
-        transform:scale(1);
-        opacity:1;
-      }
-
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
     }
 
-    .close-btn{
-      position:absolute;
-      top:10px;
-      right:15px;
-      border:none;
-      background:none;
-      font-size:35px;
-      cursor:pointer;
+    .close-modal-btn {
+      background: none;
+      border: none;
+      font-size: 32px;
+      cursor: pointer;
+      line-height: 1;
     }
 
-    .delivery-box h2{
-      text-align:center;
-      margin-bottom:25px;
-      font-size:36px;
+    /* THANH CHUYỂN TAB TRONG GIỎ HÀNG */
+    .modal-tabs {
+      display: flex;
+      border-bottom: 2px solid #eee;
+      margin-bottom: 15px;
     }
 
-    .delivery-box input,
-    .delivery-box select{
-      width:100%;
-      padding:15px;
-      margin-bottom:20px;
-      border-radius:10px;
-      border:1px solid #ccc;
-      font-size:16px;
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      color: #999;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: 0.2s;
     }
 
-    .result{
-      margin-top:20px;
-      padding:15px;
-      border-radius:12px;
-      background:#f1f1f1;
-      line-height:1.8;
-      font-size:18px;
+    .tab-btn.active {
+      color: black;
+      border-bottom-color: black;
     }
 
-    footer{
-      background:black;
-      color:#aaa;
-      text-align:center;
-      padding:25px;
-      margin-top:50px;
+    /* VÙNG CHỨA NỘI DUNG */
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      display: none;
+      padding-right: 5px;
     }
 
-    @media(max-width:768px){
-
-      header{
-        flex-direction:column;
-        gap:15px;
-      }
-
-      .hero h2{
-        font-size:40px;
-      }
-
-      nav{
-        flex-wrap:wrap;
-        justify-content:center;
-      }
-
+    .tab-content.active {
+      display: block;
     }
 
+    /* CSS ITEM GIỎ HÀNG */
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .quantity-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 8px;
+      background: black;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .remove-item-btn {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .cart-total {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 15px 0;
+      border-top: 2px solid #eee;
+      margin-top: auto;
+    }
+
+    .cart-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .checkout-btn {
+      flex: 2;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: green;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .clear-all-btn {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #333;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* CSS LỊCH SỬ MUA HÀNG */
+    .history-item {
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .history-item p {
+      margin: 4px 0;
+    }
+
+    /* NỀN ĐEN MỜ */
+    .global-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      z-index: 999;
+      display: none;
+    }
+
+    /* PAYMENT SCREEN (MÀN HÌNH THANH TOÁN) */
+    .payment-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    }
+
+    .payment-box {
+      width: 95%;
+      max-width: 600px;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+    }
+
+    .payment-box h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .payment-box input, .payment-box select {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      background-color: white;
+    }
+
+    /* Label định danh cho select */
+    .payment-box label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .confirm-btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: black;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .close-btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: red;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: white;
+      color: #666;
+      text-align: center;
+      padding: 25px;
+      margin-top: 50px;
+    }
+
+    /* TOAST */
+    #toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      background: #333;
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      border-left: 5px solid #4caf50;
+      opacity: 0;
+      transform: translateX(100%);
+      animation: slideIn 0.3s forwards, fadeOut 0.3s linear 2.2s forwards;
+    }
+
+    @keyframes slideIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateX(50px); }
+    }
+
+    /* NÚT LOGO GIỎ HÀNG Ở GÓC MÀN HÌNH */
+    .floating-cart-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: black;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      z-index: 998;
+      transition: transform 0.3s, background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .floating-cart-btn:hover {
+      transform: scale(1.1);
+      background: #333;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: red;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 50%;
+      padding: 4px 8px;
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
+  <div id="toast-container"></div>
+  <div class="global-overlay" id="globalOverlay" onclick="toggleCart()"></div>
+
+  <button class="floating-cart-btn" onclick="toggleCart()">
+    🛒
+    <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+  </button>
 
   <header>
-
-    <h1>Chill guys</h1>
-
+    <h1>Chill Guys</h1>
     <nav>
-
-      <a href="index.html">
-        Trang Chủ
-      </a>
-
-      <a href="index4.html">
-        Sản phẩm
-      </a>
-
-      <a href="index2.html">
-        Liên hệ
-      </a>
-
-      <a href="index3.html">
-        Đăng Xuất
-      </a>
-
+      <a href="index.html">Trang Chủ</a>
+      <a href="index4fake.html">Sản Phẩm</a>
+      <a href="index2.html">Liên Hệ</a>
+      <a href="index3.html">Đăng Xuất</a>
     </nav>
-
   </header>
 
-  <!-- HERO -->
-
   <section class="hero">
-
     <div class="hero-content">
-
       <h2>Giày Nike Chính Hãng</h2>
-
-      <p>Giao hàng nhanh toàn quốc</p>
-
+      <p>Sale cực mạnh hôm nay 🔥</p>
     </div>
-
   </section>
 
-  <!-- PRODUCTS -->
-
-  <section id="products">
-
-    <h2 class="title">
-      Sản Phẩm Nổi Bật
-    </h2>
-
-    <div class="products">
-
-      <!-- 1 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Air Max</h3>
-
-          <p>Thiết kế hiện đại và cực kỳ êm ái.</p>
-
-          <div class="price">$120</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Air Max')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 2 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Jordan</h3>
-
-          <p>Sneaker cao cấp dành cho giới trẻ.</p>
-
-          <div class="price">$180</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Jordan')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 3 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1605348532760-6753d2c43329?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Runner</h3>
-
-          <p>Phong cách thể thao năng động.</p>
-
-          <div class="price">$140</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Runner')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 4 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Revolution</h3>
-
-          <p>Nhẹ nhàng và phù hợp chạy bộ.</p>
-
-          <div class="price">$110</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Revolution')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 5 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Dunk Low</h3>
-
-          <p>Phong cách trẻ trung cực chất.</p>
-
-          <div class="price">$160</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Dunk Low')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 6 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike ZoomX</h3>
-
-          <p>Công nghệ đệm cao cấp siêu êm.</p>
-
-          <div class="price">$210</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike ZoomX')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 7 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1514989940723-e8e51635b782?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Court Vision</h3>
-
-          <p>Thiết kế cổ điển đầy mạnh mẽ.</p>
-
-          <div class="price">$130</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Court Vision')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 8 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1543508282-6319a3e2621f?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Pegasus</h3>
-
-          <p>Độ đàn hồi cực tốt cho vận động.</p>
-
-          <div class="price">$175</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Pegasus')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 9 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1605408499391-6368c628ef42?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Infinity Run</h3>
-
-          <p>Thiết kế hiện đại và sang trọng.</p>
-
-          <div class="price">$220</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Infinity Run')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 10 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Blazer</h3>
-
-          <p>Mẫu sneaker cổ điển thời trang.</p>
-
-          <div class="price">$145</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Blazer')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 11 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1597045566677-8cf032ed6634?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Air Force 1</h3>
-
-          <p>Huyền thoại sneaker không lỗi thời.</p>
-
-          <div class="price">$190</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Air Force 1')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- 12 -->
-
-      <div class="card">
-
-        <img src="https://images.unsplash.com/photo-1605348532760-6753d2c43329?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="card-content">
-
-          <h3>Nike Flyknit</h3>
-
-          <p>Thoáng khí và cực kỳ nhẹ chân.</p>
-
-          <div class="price">$155</div>
-
-          <button class="btn"
-          onclick="openOrderForm('Nike Flyknit')">
-
-            Mua Hàng
-
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
+  <section>
+    <h2 class="title">8 Mẫu Giày </h2>
+    <div class="products" id="products"></div>
   </section>
 
-  <!-- POPUP -->
+  <div class="cart-modal" id="cartModal">
+    <div class="modal-header">
+      <h2>Shopping Panel</h2>
+      <button class="close-modal-btn" onclick="toggleCart()">×</button>
+    </div>
 
-  <section id="delivery">
+    <div class="modal-tabs">
+      <button class="tab-btn active" onclick="switchTab('cart')">🛒 Giỏ Hàng</button>
+      <button class="tab-btn" onclick="switchTab('history')">📜 Lịch Sử Mua</button>
+    </div>
+    
+    <div id="cartTab" class="tab-content active">
+      <div id="cartItems"></div>
+      <div class="cart-total">
+        Tổng cộng: <span id="cartTotal">$0</span>
+      </div>
+      <div class="cart-actions">
+        <button class="clear-all-btn" onclick="clearCart()">Xóa Hết</button>
+        <button class="checkout-btn" onclick="openPayment()">Thanh Toán</button>
+      </div>
+    </div>
 
-    <div class="delivery-box">
+    <div id="historyTab" class="tab-content">
+      <div id="historyList">
+        <p style="text-align: center; color: #999; margin-top: 20px;" id="emptyHistoryText">Chưa có lịch sử mua hàng.</p>
+      </div>
+    </div>
+  </div>
 
-      <button class="close-btn"
-      onclick="closeForm()">
-
-        ×
-
-      </button>
-
-      <h2>Đặt Hàng</h2>
-
-      <input
-      type="text"
-      id="customerName"
-      placeholder="Họ và tên">
-
-      <input
-      type="text"
-      id="address"
-      placeholder="Địa chỉ giao hàng">
-
-      <input
-      type="text"
-      id="phone"
-      placeholder="Số điện thoại">
-
-      <input
-      type="text"
-      id="selectedProduct"
-      readonly>
-
-      <select id="shipping">
-
-        <option>Giao tiêu chuẩn</option>
-
-        <option>Giao nhanh 2H</option>
-
-        <option>Giao hỏa tốc</option>
-
+  <div class="payment-screen" id="paymentScreen">
+    <div class="payment-box">
+      <h2>📦 Thông Tin Giao Hàng</h2>
+      <input type="text" id="customerName" placeholder="Nhập tên của bạn">
+      <input type="text" id="address" placeholder="Nhập địa chỉ giao hàng">
+      <input type="date" id="deliveryDate">
+      
+      <label for="paymentMethod">💳 Hình thức thanh toán:</label>
+      <select id="paymentMethod">
+        <option value="Thanh toán khi nhận hàng (COD)">💵 Thanh toán khi nhận hàng (COD)</option>
+        <option value="Chuyển khoản ngân hàng (Banking)">💳 Chuyển khoản ngân hàng (Banking)</option>
+        <option value="Ví điện tử (Momo / Zalopay)">📲 Ví điện tử (Momo / Zalopay)</option>
       </select>
 
-      <button class="btn"
-      style="width:100%;"
-      onclick="placeOrder()">
-
-        Xác Nhận Đặt Hàng
-
-      </button>
-
-      <div class="result"
-      id="result">
-
-      </div>
-
+      <button class="confirm-btn" onclick="confirmOrder()">Xác Nhận Đặt Hàng</button>
+      <button class="close-btn" onclick="closePayment()">Đóng</button>
     </div>
-
-  </section>
-
-  <!-- FOOTER -->
+  </div>
 
   <footer>
-
-    © 2026 Nike Delivery
-
+    © 2026 Chill Guys Nike Store
   </footer>
 
-  <script>
-
-    // MỞ FORM
-
-    function openOrderForm(product){
-
-      document.getElementById('delivery')
-      .style.display = 'flex';
-
-      document.getElementById('selectedProduct')
-      .value = product;
-
-      document.getElementById('result')
-      .innerHTML = '';
-
-    }
-
-    // ĐÓNG FORM
-
-    function closeForm(){
-
-      document.getElementById('delivery')
-      .style.display = 'none';
-
-    }
-
-    // ĐẶT HÀNG
-
-    function placeOrder(){
-
-      const name =
-      document.getElementById('customerName');
-
-      const address =
-      document.getElementById('address');
-
-      const phone =
-      document.getElementById('phone');
-
-      const product =
-      document.getElementById('selectedProduct');
-
-      const shipping =
-      document.getElementById('shipping');
-
-      const result =
-      document.getElementById('result');
-
-      if(
-        name.value === '' ||
-        address.value === '' ||
-        phone.value === ''
-      ){
-
-        result.innerHTML =
-        '⚠️ Vui lòng nhập đầy đủ thông tin!';
-
-        return;
-
+  <script type="module">
+    // Hàm Đóng / Mở Bảng Điều Hướng Giỏ Hàng
+    window.toggleCart = function () {
+      const modal = document.getElementById("cartModal");
+      const overlay = document.getElementById("globalOverlay");
+      
+      if (modal.classList.contains("open")) {
+        modal.classList.remove("open");
+        overlay.style.display = "none";
+        setTimeout(() => { modal.style.display = "none"; }, 300);
+      } else {
+        switchTab('cart');
+        modal.style.display = "flex";
+        overlay.style.display = "block";
+        setTimeout(() => { modal.classList.add("open"); }, 10);
       }
+    };
 
-      const orderCode =
-      'NK' + Math.floor(Math.random()*100000);
+    // Hàm đổi Tab qua lại giữa Giỏ hàng và Lịch sử
+    window.switchTab = function (tabName) {
+      const tabs = document.querySelectorAll(".tab-btn");
+      const contents = document.querySelectorAll(".tab-content");
 
-      result.innerHTML = `
-        ✅ Đặt hàng thành công!<br><br>
+      tabs.forEach(btn => btn.classList.remove("active"));
+      contents.forEach(content => content.classList.remove("active"));
 
-        👤 ${name.value}<br>
+      if (tabName === 'cart') {
+        tabs[0].classList.add("active");
+        document.getElementById("cartTab").classList.add("active");
+      } else {
+        tabs[1].classList.add("active");
+        document.getElementById("historyTab").classList.add("active");
+      }
+    };
 
-        👟 ${product.value}<br>
+    window.clearCart = function () {
+      if (cart.length === 0) {
+        showToast("❌ Giỏ hàng đã trống sẵn rồi!");
+        return;
+      }
+      if (confirm("Bạn có chắc muốn xóa TOÀN BỘ sản phẩm trong giỏ hàng?")) {
+        cart = [];
+        renderCart();
+        showToast("🗑️ Đã xóa toàn bộ giỏ hàng!");
+      }
+    };
 
-        🚚 ${shipping.value}<br>
+    window.removeItem = function (index) {
+      const removedName = cart[index].name;
+      cart.splice(index, 1);
+      renderCart();
+      showToast("🗑️ Đã xóa " + removedName + " khỏi giỏ!");
+    };
 
-        📦 Mã đơn:
-        <strong>${orderCode}</strong>
-      `;
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA4kJDVG7XBWv3gFSdkCdQA_k9Df2qOj4k",
+      authDomain: "quanganh-dc7c4.firebaseapp.com",
+      databaseURL: "https://quanganh-dc7c4-default-rtdb.firebaseio.com",
+      projectId: "quanganh-dc7c4",
+      storageBucket: "quanganh-dc7c4.firebasestorage.app",
+      messagingSenderId: "45936787005",
+      appId: "1:45936787005:web:dd351641ab446b83e63454"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const productContainer = document.getElementById("products");
+    let cart = [];
+
+    function showToast(message) {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = message;
+      
+      container.appendChild(toast);
 
       setTimeout(() => {
-
-        name.value = '';
-        address.value = '';
-        phone.value = '';
-        product.value = '';
-
-        shipping.selectedIndex = 0;
-
-        document.getElementById('delivery')
-        .style.display = 'none';
-
-      },1500);
-
+        toast.remove();
+      }, 2500);
     }
 
+    onValue(ref(db, "products"), (snapshot) => {
+      const data = snapshot.val();
+      productContainer.innerHTML = "";
+      if (!data) return;
+
+      Object.keys(data).forEach(id => {
+        const product = data[id];
+        productContainer.innerHTML += `
+          <div class="card">
+            <img src="${product.image}">
+            <div class="card-content">
+              <h3>${product.name}</h3>
+              <p class="product-description">Trạng thái: ${product.status}</p>
+              <div class="price">$${product.price}</div>
+              <button class="btn" onclick="addToCart('${product.name}', ${Number(product.price)})">
+                Thêm Vào Giỏ
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    });
+
+    window.addToCart = function (name, price) {
+      let found = cart.find(item => item.name === name);
+
+      if (found) {
+        found.quantity++;
+      } else {
+        cart.push({ name, price, quantity: 1 });
+      }
+
+      renderCart();
+      showToast(`🟢 Đã thêm <b>${name}</b> vào giỏ!`);
+    };
+
+    function renderCart() {
+      const cartItems = document.getElementById("cartItems");
+      cartItems.innerHTML = "";
+      let total = 0;
+      let totalQuantity = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+        totalQuantity += item.quantity;
+        
+        cartItems.innerHTML += `
+          <div class="cart-item">
+            <div>
+              <strong>${item.name}</strong><br>
+              $${item.price} x ${item.quantity}
+            </div>
+            <div class="quantity-box">
+              <button class="quantity-btn" onclick="decreaseQuantity(${index})">-</button>
+              <span>${item.quantity}</span>
+              <button class="quantity-btn" onclick="increaseQuantity(${index})">+</button>
+              <button class="remove-item-btn" onclick="removeItem(${index})">Xóa</button>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById("cartTotal").innerText = "$" + total;
+
+      const badge = document.getElementById("cartBadge");
+      if (totalQuantity > 0) {
+        badge.innerText = totalQuantity;
+        badge.style.display = "block";
+      } else {
+        badge.style.display = "none";
+      }
+    }
+
+    window.increaseQuantity = function (index) {
+      cart[index].quantity++;
+      renderCart();
+    };
+
+    window.decreaseQuantity = function (index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+      } else {
+        cart.splice(index, 1);
+      }
+      renderCart();
+    };
+
+    window.openPayment = function () {
+      if (cart.length === 0) {
+        showToast("❌ Giỏ hàng đang trống!");
+        return;
+      }
+      document.getElementById("paymentScreen").style.display = "flex";
+    };
+
+    window.closePayment = function () {
+      document.getElementById("paymentScreen").style.display = "none";
+    };
+
+    window.confirmOrder = function () {
+      const name = document.getElementById("customerName").value;
+      const address = document.getElementById("address").value;
+      const date = document.getElementById("deliveryDate").value;
+      // CẬP NHẬT MỚI: Lấy giá trị hình thức thanh toán được chọn
+      const paymentMethod = document.getElementById("paymentMethod").value;
+
+      if (!name || !address || !date) {
+        showToast("⚠️ Vui lòng nhập đầy đủ thông tin!");
+        return;
+      }
+
+      let total = 0;
+      let productsText = "";
+
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        productsText += `<p>- ${item.name} (x${item.quantity}) - $${item.price * item.quantity}</p>`;
+      });
+
+      const emptyText = document.getElementById("emptyHistoryText");
+      if(emptyText) emptyText.remove();
+
+      // CẬP NHẬT MỚI: Đưa thông tin hình thức thanh toán vào giao diện lịch sử
+      document.getElementById("historyList").innerHTML = `
+        <div class="history-item">
+          <p><strong>👤 Khách hàng:</strong> ${name}</p>
+          <p><strong>📍 Địa chỉ:</strong> ${address}</p>
+          <p><strong>📅 Ngày giao:</strong> ${date}</p>
+          <p><strong>💳 Thanh toán:</strong> ${paymentMethod}</p>
+          <p><strong>💰 Tổng tiền:</strong> $${total}</p>
+          <p><strong>🛒 Sản phẩm:</strong></p>
+          ${productsText}
+        </div>
+      ` + document.getElementById("historyList").innerHTML;
+
+      showToast("✅ Đặt hàng thành công!");
+      cart = [];
+      renderCart();
+      closePayment();
+      
+      // Chuyển sang tab Lịch Sử để kiểm tra đơn hàng và hình thức thanh toán vừa chọn
+      switchTab('history');
+    };
   </script>
 
 </body>

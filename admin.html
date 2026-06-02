@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quản trị sản phẩm</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Admin - Quản lý Sản phẩm</h1>
+  <form id="product-form">
+    <label>Tên sản phẩm<input id="p-name" required></label>
+    <label>Mô tả<textarea id="p-desc"></textarea></label>
+    <label>Giá<input id="p-price" type="number" required></label>
+    <label>Ảnh<input id="p-image" type="file" accept="image/*"></label>
+    <button type="submit">Tạo sản phẩm</button>
+  </form>
+  <div id="msg"></div>
+  <hr>
+  <a href="admin-orders.html">Xem đơn hàng</a>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
