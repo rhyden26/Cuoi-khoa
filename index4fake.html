@@ -20,7 +20,6 @@
     }
 
     /* HEADER */
-
     header {
       background: black;
       color: white;
@@ -48,7 +47,6 @@
     }
 
     /* HERO */
-
     .hero {
       height: 450px;
       background: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop') center/cover;
@@ -82,7 +80,6 @@
     }
 
     /* PRODUCTS */
-
     section {
       padding: 60px 40px;
     }
@@ -105,6 +102,7 @@
       overflow: hidden;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
       transition: 0.3s;
+      cursor: pointer;
     }
 
     .card:hover {
@@ -152,14 +150,84 @@
       opacity: 0.8;
     }
 
-    /* CSS class cho nút hết hàng */
     .btn.btn-disabled {
       background: #ccc;
       color: #666;
       cursor: not-allowed;
     }
 
-    /* BẢNG GIỎ HÀNG CHÍNH GIỮA MÀN HÌNH CHỨA CẢ TABS */
+    /* POPUP BẢNG CHI TIẾT SẢN PHẨM */
+    .detail-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.7);
+      width: 90%;
+      max-width: 700px;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      z-index: 1010;
+      display: none;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: hidden;
+    }
+
+    .detail-modal.open {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 600px) {
+      .detail-grid { grid-template-columns: 1fr; }
+      .detail-modal { height: 85vh; overflow-y: auto; }
+    }
+
+    .detail-img {
+      width: 100%;
+      height: 100%;
+      min-height: 350px;
+      object-fit: cover;
+    }
+
+    .detail-info {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .close-detail-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .detail-info h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .detail-meta {
+      margin: 10px 0;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* GIỎ HÀNG MODAL */
     .cart-modal {
       position: fixed;
       top: 50%;
@@ -201,7 +269,6 @@
       line-height: 1;
     }
 
-    /* THANH CHUYỂN TAB TRONG GIỎ HÀNG */
     .modal-tabs {
       display: flex;
       border-bottom: 2px solid #eee;
@@ -226,7 +293,6 @@
       border-bottom-color: black;
     }
 
-    /* VÙNG CHỨA NỘI DUNG */
     .tab-content {
       flex: 1;
       overflow-y: auto;
@@ -238,7 +304,6 @@
       display: block;
     }
 
-    /* CSS ITEM GIỎ HÀNG */
     .cart-item {
       display: flex;
       justify-content: space-between;
@@ -312,7 +377,6 @@
       font-weight: bold;
     }
 
-    /* CSS LỊCH SỬ MUA HÀNG */
     .history-item {
       border-bottom: 1px solid #eee;
       padding: 15px 0;
@@ -324,7 +388,6 @@
       margin: 4px 0;
     }
 
-    /* NỀN ĐEN MỜ */
     .global-overlay {
       position: fixed;
       inset: 0;
@@ -335,7 +398,6 @@
     }
 
     /* PAYMENT SCREEN */
-
     .payment-screen {
       position: fixed;
       top: 0;
@@ -346,7 +408,7 @@
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 1001;
+      z-index: 1015;
     }
 
     .payment-box {
@@ -396,7 +458,6 @@
     }
 
     /* FOOTER */
-
     footer {
       background: black;
       color: #ffffff;
@@ -444,7 +505,7 @@
       to { opacity: 0; transform: translateX(50px); }
     }
 
-    /* NÚT LOGO GIỎ HÀNG Ở GÓC MÀN HÌNH */
+    /* FLOATING CART BUTTON */
     .floating-cart-btn {
       position: fixed;
       bottom: 30px;
@@ -487,7 +548,7 @@
 <body>
 
   <div id="toast-container"></div>
-  <div class="global-overlay" id="globalOverlay" onclick="toggleCart()"></div>
+  <div class="global-overlay" id="globalOverlay" onclick="closeAllModals()"></div>
 
   <button class="floating-cart-btn" onclick="toggleCart()">
     🛒
@@ -512,9 +573,28 @@
   </section>
 
   <section>
-    <h2 class="title">8 Mẫu Giày </h2>
+    <h2 class="title">8 Mẫu Giày</h2>
     <div class="products" id="products"></div>
   </section>
+
+  <div class="detail-modal" id="detailModal">
+    <div class="detail-grid">
+      <img src="" id="detailPopupImg" class="detail-img">
+      <div class="detail-info">
+        <button class="close-detail-btn" onclick="closeDetail()">×</button>
+        <h2 id="detailPopupName">Tên sản phẩm</h2>
+        <div class="detail-meta">
+          <p><strong>👟 Phân loại:</strong> Giày Thể Thao Cao Cấp</p>
+          <p><strong>🎨 Phối màu:</strong> Đa dạng phiên bản giới hạn</p>
+          <p><strong>🧵 Chất liệu:</strong> Da tổng hợp mềm, đệm Air ôm chân</p>
+          <p><strong>📐 Kích thước (Size):</strong> 38 | 39 | 40 | 41 | 42 | 43</p>
+        </div>
+        <p class="product-description" id="detailPopupStock">Trạng thái: ...</p>
+        <div class="price" id="detailPopupPrice">$0</div>
+        <div id="detailPopupActionBtnSlot"></div>
+      </div>
+    </div>
+  </div>
 
   <div class="cart-modal" id="cartModal">
     <div class="modal-header">
@@ -585,9 +665,52 @@
 
     const productContainer = document.getElementById("products");
     let cart = [];
-    let globalProductsData = {}; // Lưu trữ dữ liệu sản phẩm realtime từ Firebase để đối chiếu kho
+    let globalProductsData = {}; 
 
-    // --- ĐĂNG KÝ HÀM TOÀN CỤC (WINDOW) ĐỂ THẺ HTML GỌI ĐƯỢC ---
+    // --- ĐĂNG KÝ HÀM TOÀN CỤC (WINDOW) ---
+
+    // Hàm mở xem chi tiết sản phẩm
+    window.openDetail = function(id) {
+      const product = globalProductsData[id];
+      if(!product) return;
+
+      const qty = Number(product.quantity);
+      let displayStatus = "Còn hàng";
+      let statusColor = "#4caf50";
+      // ĐÃ SỬA: Chữ trên nút ở trang chi tiết cũng luôn đồng nhất là "Thêm Vào Giỏ"
+      let btnHtml = `<button class="btn" onclick="addToCart('${id}', '${product.name}', ${Number(product.price)}, '${displayStatus}'); event.stopPropagation();">Thêm Vào Giỏ</button>`;
+
+      if (qty <= 0) {
+        displayStatus = "Hết hàng";
+        statusColor = "#ef4444";
+        btnHtml = `<button class="btn btn-disabled" disabled>Hết Hàng</button>`;
+      } else if (qty < 100) {
+        displayStatus = "Sắp hết";
+        statusColor = "#e67e22";
+        btnHtml = `<button class="btn" onclick="addToCart('${id}', '${product.name}', ${Number(product.price)}, '${displayStatus}'); event.stopPropagation();">Thêm Vào Giỏ</button>`;
+      }
+
+      document.getElementById("detailPopupImg").src = product.image;
+      document.getElementById("detailPopupName").innerText = product.name;
+      document.getElementById("detailPopupPrice").innerText = "$" + product.price;
+      document.getElementById("detailPopupStock").innerHTML = `Trạng thái: <b style="color: ${statusColor}">${displayStatus}</b> (${qty} đôi)`;
+      document.getElementById("detailPopupActionBtnSlot").innerHTML = btnHtml;
+
+      const modal = document.getElementById("detailModal");
+      const overlay = document.getElementById("globalOverlay");
+      modal.style.display = "block";
+      overlay.style.display = "block";
+      setTimeout(() => { modal.classList.add("open"); }, 10);
+    };
+
+    window.closeDetail = function() {
+      const modal = document.getElementById("detailModal");
+      modal.classList.remove("open");
+      setTimeout(() => { modal.style.display = "none"; }, 300);
+      if(!document.getElementById("cartModal").classList.contains("open")) {
+        document.getElementById("globalOverlay").style.display = "none";
+      }
+    };
 
     window.toggleCart = function () {
       const modal = document.getElementById("cartModal");
@@ -603,6 +726,16 @@
         overlay.style.display = "block";
         setTimeout(() => { modal.classList.add("open"); }, 10);
       }
+    };
+
+    window.closeAllModals = function() {
+      closeDetail();
+      const cartM = document.getElementById("cartModal");
+      if(cartM.classList.contains("open")) {
+        cartM.classList.remove("open");
+        setTimeout(() => { cartM.style.display = "none"; }, 300);
+      }
+      document.getElementById("globalOverlay").style.display = "none";
     };
 
     window.switchTab = function (tabName) {
@@ -640,25 +773,24 @@
       showToast("🗑️ Đã xóa " + removedName + " khỏi giỏ!");
     };
 
-    // ĐÃ NÂNG CẤP: Nhận thêm biến id để quản lý kho chính xác
     window.addToCart = function (id, name, price, status) {
-      // Tìm xem sản phẩm hiện tại trong Database còn bao nhiêu đôi
       const dbProduct = globalProductsData[id];
       const maxAvailable = dbProduct ? Number(dbProduct.quantity) : 0;
 
       if (status === "Hết hàng" || maxAvailable <= 0) {
-        showToast(`❌ Sản phẩm <b>${name}</b> đã hết hàng, không thể mua!`, true);
+        showToast(`❌ Sản phẩm <b>${name}</b> đã hết sạch hàng, không thể đặt mua!`, true);
         return;
       }
 
       let found = cart.find(item => item.id === id);
+      const currentInCart = found ? found.quantity : 0;
+
+      if (currentInCart >= maxAvailable) {
+        showToast(`⚠️ Không thể thêm! Kho chỉ còn đúng ${maxAvailable} đôi cuối cùng.`, true);
+        return;
+      }
 
       if (found) {
-        // Chặn nếu người dùng cố tình bấm thêm vượt số lượng kho hiện có
-        if (found.quantity >= maxAvailable) {
-          showToast(`⚠️ Không thể thêm! Kho hàng chỉ còn đúng ${maxAvailable} đôi sản phẩm này.`, true);
-          return;
-        }
         found.quantity++;
       } else {
         cart.push({ id, name, price, quantity: 1 });
@@ -673,7 +805,7 @@
       const maxAvailable = globalProductsData[item.id] ? Number(globalProductsData[item.id].quantity) : 0;
 
       if (item.quantity >= maxAvailable) {
-        showToast(`⚠️ Không thể tăng! Rất tiếc kho hàng chỉ còn tối đa ${maxAvailable} đôi.`, true);
+        showToast(`⚠️ Rất tiếc, kho hàng chỉ còn tối đa ${maxAvailable} đôi sản phẩm này.`, true);
         return;
       }
       item.quantity++;
@@ -701,7 +833,6 @@
       document.getElementById("paymentScreen").style.display = "none";
     };
 
-    // ĐÃ NÂNG CẤP TOÀN DIỆN: Đặt hàng xong tự trừ kho hàng và tự cập nhật trạng thái "Hết hàng"
     window.confirmOrder = function () {
       const name = document.getElementById("customerName").value.trim();
       const address = document.getElementById("address").value.trim();
@@ -712,11 +843,10 @@
         return;
       }
 
-      // Kiểm tra lại tồn kho một lần nữa trước khi lưu đơn (Đề phòng trường hợp khách ngâm giỏ hàng lâu, người khác mua mất)
       for (let item of cart) {
         const maxAvailable = globalProductsData[item.id] ? Number(globalProductsData[item.id].quantity) : 0;
         if (item.quantity > maxAvailable) {
-          showToast(`❌ Đặt hàng thất bại! Sản phẩm <b>${item.name}</b> vừa hết hàng hoặc số lượng trong kho không đủ!`, true);
+          showToast(`❌ Đặt hàng thất bại! Sản phẩm <b>${item.name}</b> không đủ số lượng trong kho!`, true);
           return;
         }
       }
@@ -740,22 +870,19 @@
       
       set(newOrderRef, orderData)
         .then(() => {
-          // --- TIẾN HÀNH TRỪ SỐ LƯỢNG KHO TRÊN FIREBASE ---
           cart.forEach(item => {
             const originalProduct = globalProductsData[item.id];
             if (originalProduct) {
               const currentQty = Number(originalProduct.quantity);
-              const newQty = Math.max(0, currentQty - item.quantity); // Giảm trừ kho, chặn số âm
+              const newQty = Math.max(0, currentQty - item.quantity);
               
-              // Nếu số lượng sau trừ bằng 0, tự động ép trạng thái thành "Hết hàng"
-              let newStatus = originalProduct.status;
+              let newStatus = "Còn hàng";
               if (newQty <= 0) {
                 newStatus = "Hết hàng";
-              } else if (newQty > 0 && newQty <= 5) {
+              } else if (newQty < 100) {
                 newStatus = "Sắp hết";
               }
 
-              // Update dữ liệu ghi đè lên node sản phẩm tương ứng
               const specificProductRef = ref(db, `products/${item.id}`);
               set(specificProductRef, {
                 ...originalProduct,
@@ -765,7 +892,7 @@
             }
           });
 
-          showToast("✅ Đặt hàng thành công! Trạng thái kho hàng đã được cập nhật.");
+          showToast("✅ Đặt hàng thành công! Trạng thái tồn kho đã được cập nhật.");
           
           document.getElementById("customerName").value = "";
           document.getElementById("address").value = "";
@@ -773,31 +900,26 @@
           cart = [];
           renderCart();
           closePayment();
+          closeDetail();
           
           switchTab('history');
         })
         .catch((error) => {
-          console.error("Lỗi cập nhật Firebase: ", error);
-          showToast("❌ Gặp lỗi trong quá trình xử lý đơn hàng, hãy thử lại!", true);
+          console.error(error);
+          showToast("❌ Gặp lỗi xử lý hệ thống, hãy thử lại!", true);
         });
     };
-
-    // --- CÁC HÀM TIỆN ÍCH CHẠY NỘI BỘ ---
 
     function showToast(message, isError = false) {
       const container = document.getElementById("toast-container");
       const toast = document.createElement("div");
       toast.className = isError ? "toast toast-error" : "toast";
       toast.innerHTML = message;
-      
       container.appendChild(toast);
-
-      setTimeout(() => {
-        toast.remove();
-      }, 2500);
+      setTimeout(() => { toast.remove(); }, 2500);
     }
 
-    // ĐÃ SỬA: Đồng bộ hóa cấu trúc dữ liệu theo ID của Firebase
+    // TẢI SẢN PHẨM REALTIME VÀ HIỂN THỊ NÚT BẤM CHUẨN HOÁ
     onValue(ref(db, "products"), (snapshot) => {
       const data = snapshot.val();
       productContainer.innerHTML = "";
@@ -806,25 +928,37 @@
         return;
       }
 
-      globalProductsData = data; // Lưu dữ liệu vào biến toàn cục để so khớp kho khi khách chọn tăng giảm
+      globalProductsData = data; 
 
       Object.keys(data).forEach(id => {
         const product = data[id];
+        const qty = Number(product.quantity);
         
-        // Đồng bộ hiển thị cưỡng chế: nếu kho bằng 0 thì trạng thái bắt buộc hiển thị là "Hết hàng"
-        const isOut = product.status === "Hết hàng" || Number(product.quantity) <= 0;
-        const btnClass = isOut ? "btn btn-disabled" : "btn";
-        const btnText = isOut ? "Hết Hàng" : "Thêm Vào Giỏ";
-        const displayStatus = isOut ? "Hết hàng" : product.status;
+        let displayStatus = "Còn hàng";
+        let statusColor = "#4caf50"; 
+        let btnClass = "btn";
+        // ĐÃ SỬA: Chữ mặc định luôn là "Thêm Vào Giỏ" cho cả 2 trạng thái Còn hàng & Sắp hết
+        let btnText = "Thêm Vào Giỏ";
+
+        if (qty <= 0) {
+          displayStatus = "Hết hàng";
+          statusColor = "#ef4444"; 
+          btnClass = "btn btn-disabled"; 
+          btnText = "Hết Hàng";
+        } else if (qty < 100) {
+          displayStatus = "Sắp hết";
+          statusColor = "#e67e22"; 
+          btnText = "Thêm Vào Giỏ"; // Đã xóa chữ "(Sắp hết)" tại đây theo yêu cầu
+        }
 
         productContainer.innerHTML += `
-          <div class="card">
+          <div class="card" onclick="openDetail('${id}')">
             <img src="${product.image}">
             <div class="card-content">
               <h3>${product.name}</h3>
-              <p class="product-description">Trạng thái: <b>${displayStatus}</b> (${product.quantity} đôi)</p>
+              <p class="product-description">Trạng thái: <b style="color: ${statusColor}">${displayStatus}</b> (${qty} đôi)</p>
               <div class="price">$${product.price}</div>
-              <button class="${btnClass}" onclick="addToCart('${id}', '${product.name}', ${Number(product.price)}, '${displayStatus}')">
+              <button class="${btnClass}" onclick="addToCart('${id}', '${product.name}', ${Number(product.price)}, '${displayStatus}'); event.stopPropagation();">
                 ${btnText}
               </button>
             </div>
@@ -832,7 +966,6 @@
         `;
       });
 
-      // Render lại giỏ hàng phòng trường hợp admin đổi số lượng sản phẩm ở dashboard thì giỏ hàng cập nhật theo
       if(cart.length > 0) {
         renderCart();
       }
@@ -848,7 +981,6 @@
       }
 
       historyList.innerHTML = ""; 
-
       const orderedList = Object.keys(data).map(key => data[key]).reverse();
 
       orderedList.forEach(order => {
@@ -878,14 +1010,14 @@
       let total = 0;
       let totalQuantity = 0;
 
-      // Lọc bỏ hoặc giảm số lượng các mặt hàng trong giỏ nếu vượt quá lượng hàng thực tế hiện tại trong kho
-      cart.forEach((item, index) => {
+      for (let i = cart.length - 1; i >= 0; i--) {
+        const item = cart[i];
         const dbProduct = globalProductsData[item.id];
         const maxAvailable = dbProduct ? Number(dbProduct.quantity) : 0;
         
         if (maxAvailable <= 0) {
-          cart.splice(index, 1);
-          return;
+          cart.splice(i, 1);
+          continue;
         } else if (item.quantity > maxAvailable) {
           item.quantity = maxAvailable; 
         }
@@ -900,14 +1032,14 @@
               $${item.price} x ${item.quantity}
             </div>
             <div class="quantity-box">
-              <button class="quantity-btn" onclick="decreaseQuantity(${index})">-</button>
+              <button class="quantity-btn" onclick="decreaseQuantity(${i})">-</button>
               <span>${item.quantity}</span>
-              <button class="quantity-btn" onclick="increaseQuantity(${index})">+</button>
-              <button class="remove-item-btn" onclick="removeItem(${index})">Xóa</button>
+              <button class="quantity-btn" onclick="increaseQuantity(${i})">+</button>
+              <button class="remove-item-btn" onclick="removeItem(${i})">Xóa</button>
             </div>
           </div>
         `;
-      });
+      }
 
       document.getElementById("cartTotal").innerText = "$" + total;
 
