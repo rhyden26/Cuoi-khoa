@@ -6,107 +6,178 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hệ Thống Quản Lí Sản Phẩm Giày - Premium Dark Dashboard</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    /* BẢNG MÀU DARK MODE CHUYÊN NGHIỆP */
+    /* BẢNG MÀU DARK MODE GLASSMORPHISM & NEON GLOW */
     :root {
       --primary: #3b82f6;
-      --primary-hover: #2563eb;
-      --success: #22c55e;
-      --success-hover: #16a34a;
-      --warning: #eab308;
-      --warning-hover: #ca8a04;
+      --primary-hover: #1d4ed8;
+      --primary-glow: rgba(59, 130, 246, 0.22);
+      --success: #10b981;
+      --success-hover: #059669;
+      --success-glow: rgba(16, 185, 129, 0.15);
+      --warning: #f59e0b;
+      --warning-hover: #d97706;
+      --warning-glow: rgba(245, 158, 11, 0.15);
       --danger: #ef4444;
-      --bg-main: #0f172a;       
-      --bg-card: #1e293b;       
-      --bg-input: #334155;      
+      --danger-hover: #dc2626;
+      --danger-glow: rgba(239, 68, 68, 0.15);
+      
+      --bg-main: #0b0f19;      
+      --bg-card: #151f32;      
+      --bg-input: #1e293b;      
       --text-main: #f8fafc;     
-      --text-muted: #94a3b8;    
-      --border-color: #334155;  
+      --text-muted: #64748b;    
+      --text-desc: #94a3b8;
+      --border-color: #243249;  
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
       background: var(--bg-main);
       color: var(--text-main);
-      padding: 30px;
+      padding: 40px 20px;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.03) 0px, transparent 50%);
     }
 
     .container {
-      max-width: 1500px;
+      max-width: 1600px;
       margin: auto;
     }
 
+    /* HEADER BANNER */
+    .header-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 35px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
     h1 {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
-      margin-bottom: 30px;
-      color: var(--text-main);
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 15px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h1 i {
+      color: var(--primary);
+      -webkit-text-fill-color: initial;
     }
 
     .dashboard-layout {
       display: grid;
-      grid-template-columns: 360px 1fr;
+      grid-template-columns: 380px 1fr;
       gap: 30px;
       align-items: start;
     }
 
-    .sidebar-card {
+    /* CARD STYLE CHUNG */
+    .card-custom {
       background: var(--bg-card);
-      padding: 25px;
       border-radius: 16px;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+      box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.7);
       border: 1px solid var(--border-color);
+      transition: border-color 0.3s ease;
+    }
+    
+    .card-custom:hover {
+      border-color: #2e3f5d;
     }
 
+    .sidebar-card {
+      padding: 28px;
+      position: sticky;
+      top: 30px;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* INPUTS & FORMS */
     .form-group {
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     .form-group label {
       display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-desc);
       margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
     }
 
     .form-group input,
     .form-group select {
       width: 100%;
-      padding: 12px 14px;
+      padding: 12px 14px 12px 40px;
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      font-size: 15px;
+      font-size: 14px;
       background-color: var(--bg-input);
       color: var(--text-main);
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .form-group input::placeholder {
-      color: #64748b;
+      color: #475569;
     }
 
     .form-group input:focus,
     .form-group select:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+      box-shadow: 0 0 0 4px var(--primary-glow);
+      background-color: #223047;
     }
 
+    /* UPLOAD AREA */
     .upload-area {
       position: relative;
-      border: 2px dashed #475569;
-      background: #1e293b;
+      border: 2px dashed #334155;
+      background: #1a2436;
       border-radius: 10px;
-      padding: 20px;
+      padding: 25px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -114,12 +185,12 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 125px;
+      min-height: 135px;
     }
 
     .upload-area:hover {
-      background: #334155;
-      border-color: #64748b;
+      background: var(--bg-input);
+      border-color: var(--primary);
     }
 
     .upload-area input[type="file"] {
@@ -127,23 +198,22 @@
       inset: 0;
       opacity: 0;
       cursor: pointer;
-      width: 100%;
-      height: 100%;
     }
 
     .upload-icon {
-      font-size: 28px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
+      font-size: 24px;
+      color: var(--primary);
+      margin-bottom: 8px;
     }
 
     .upload-text {
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--text-desc);
       font-weight: 500;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
+    /* PREVIEW OVERLAY */
     .preview-overlay {
       position: absolute;
       inset: 0;
@@ -166,7 +236,7 @@
       position: absolute;
       top: 8px;
       right: 8px;
-      background: rgba(239, 68, 68, 0.9);
+      background: var(--danger);
       color: white;
       border: none;
       border-radius: 50%;
@@ -177,15 +247,20 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
+      transition: background 0.2s;
       z-index: 5;
     }
+    
+    .btn-delete-preview:hover {
+      background: var(--danger-hover);
+    }
 
+    /* ACTION BUTTONS */
     .action-group {
       margin-top: 25px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     .btn-main {
@@ -194,10 +269,10 @@
       border: none;
       border-radius: 10px;
       color: white;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -205,45 +280,59 @@
     }
 
     .btn-main:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
-    .add-btn { background: var(--primary); }
-    .add-btn:hover:not(:disabled) { background: var(--primary-hover); }
+    .add-btn { background: var(--primary); box-shadow: 0 4px 12px var(--primary-glow); }
+    .add-btn:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); }
 
-    .update-btn { background: var(--success); }
-    .update-btn:hover:not(:disabled) { background: var(--success-hover); }
+    .update-btn { background: var(--success); box-shadow: 0 4px 12px var(--success-glow); }
+    .update-btn:hover:not(:disabled) { background: var(--success-hover); transform: translateY(-1px); }
 
-    .restore-btn { background: var(--warning); color: #0f172a; }
-    .restore-btn:hover:not(:disabled) { background: var(--warning-hover); }
+    .restore-btn { background: #1e293b; color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .restore-btn:hover:not(:disabled) { background: #243249; color: #fbbf24; }
 
+    /* MAIN CONTENT */
     .main-content {
       display: flex;
       flex-direction: column;
       gap: 25px;
     }
 
-    .search-container input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      font-size: 15px;
-      background: var(--bg-card);
-      color: var(--text-main);
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
+    /* SEARCH BAR */
+    .search-container {
+      position: relative;
     }
 
-    .search-container input::placeholder {
-      color: #64748b;
+    .search-container i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-desc);
+      font-size: 16px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 15px 16px 15px 48px;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      font-size: 14px;
+      background: var(--bg-card);
+      color: var(--text-main);
+      box-shadow: 0 4px 20px -5px rgb(0 0 0 / 0.5);
+      transition: all 0.2s ease;
     }
 
     .search-container input:focus {
       outline: none;
       border-color: var(--primary);
+      background: #152238;
     }
 
+    /* STATS CARDS */
     .stats-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -251,33 +340,44 @@
     }
 
     .stat-card {
-      background: var(--bg-card);
-      padding: 20px;
-      border-radius: 14px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
+      padding: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .stat-card h3 {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
+    .stat-info h3 {
+      font-size: 13px;
+      color: var(--text-desc);
+      margin-bottom: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      font-weight: 500;
     }
 
-    .stat-card p {
-      font-size: 28px;
+    .stat-info p {
+      font-size: 30px;
       font-weight: 700;
       color: var(--text-main);
     }
 
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .icon-total { background: rgba(241, 245, 249, 0.05); color: #94a3b8; }
+    .icon-avail { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+    .icon-out { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+    /* DATA TABLE */
     .table-container {
-      background: var(--bg-card);
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+      overflow-x: auto;
     }
 
     table {
@@ -287,20 +387,31 @@
     }
 
     table th {
-      background: #1e293b;
-      color: var(--text-muted);
-      padding: 16px;
-      font-size: 14px;
+      background: #1a263d;
+      color: var(--text-desc);
+      padding: 16px 20px;
+      font-size: 13px;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       border-bottom: 1px solid var(--border-color);
     }
 
     table td {
-      padding: 16px;
-      font-size: 15px;
-      color: #e2e8f0;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: #cbd5e1;
       border-bottom: 1px solid var(--border-color);
       vertical-align: middle;
+    }
+
+    table tr {
+      transition: background 0.2s ease;
+    }
+
+    table tr:hover td {
+      background: rgba(255, 255, 255, 0.015);
+      color: #fff;
     }
 
     table tr:last-child td {
@@ -308,49 +419,82 @@
     }
 
     .product-img {
-      width: 55px;
-      height: 55px;
+      width: 52px;
+      height: 52px;
       object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      border: 1px solid #2e3f5d;
+      box-shadow: 0 4px 10px rgb(0 0 0 / 0.3);
     }
 
+    /* BADGES */
     .status-badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       padding: 5px 12px;
-      border-radius: 20px;
+      border-radius: 30px;
       font-size: 12px;
       font-weight: 600;
-      text-align: center;
+    }
+    
+    .status-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
     }
 
-    .available { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
-    .low { background: rgba(234, 179, 8, 0.15); color: #facc15; }
-    .out { background: rgba(239, 44, 44, 0.15); color: #f87171; }
+    .available { background: rgba(16, 185, 129, 0.12); color: #34d399; }
+    .available::before { background: #34d399; }
 
+    .low { background: rgba(245, 158, 11, 0.12); color: #fbbf24; }
+    .low::before { background: #fbbf24; }
+
+    .out { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+    .out::before { background: #f87171; }
+
+    /* TABLE ACTIONS */
     .row-actions {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
 
     .btn-table {
-      padding: 8px 12px;
+      width: 34px;
+      height: 34px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 13px;
-      font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
     }
 
-    .btn-table.edit { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-    .btn-table.edit:hover { background: rgba(59, 130, 246, 0.3); }
-    .btn-table.delete { background: rgba(239, 44, 44, 0.15); color: #f87171; }
-    .btn-table.delete:hover { background: rgba(239, 44, 44, 0.3); }
+    .btn-table.edit { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
+    .btn-table.edit:hover { background: var(--primary); color: white; transform: scale(1.05); }
+    
+    .btn-table.delete { background: rgba(239, 68, 68, 0.1); color: #f87171; }
+    .btn-table.delete:hover { background: var(--danger); color: white; transform: scale(1.05); }
 
-    @media(max-width: 1024px) {
+    /* RESPONSIVE */
+    @media(max-width: 1150px) {
       .dashboard-layout {
         grid-template-columns: 1fr;
+      }
+      .sidebar-card {
+        position: static;
+      }
+    }
+    
+    @media(max-width: 650px) {
+      .stats-cards {
+        grid-template-columns: 1fr;
+      }
+      body {
+        padding: 20px 10px;
       }
     }
   </style>
@@ -359,35 +503,51 @@
 <body>
 
   <div class="container">
-    <h1>Hệ Thống Quản Lí Sản Phẩm Giày</h1>
+    <div class="header-panel">
+      <h1><i class="fa-solid to-blue-500 fa-boxes-stacked"></i> Hệ Thống Quản Lí Sản Phẩm Giày</h1>
+    </div>
 
     <div class="dashboard-layout">
       
-      <div class="sidebar-card">
+      <div class="card-custom sidebar-card">
+        <div class="sidebar-title">
+          <i class="fa-solid fa-square-plus" style="color: var(--primary);"></i>
+          <span>Thông tin sản phẩm</span>
+        </div>
+
         <div class="form-group">
           <label for="name">Tên sản phẩm</label>
-          <input type="text" id="name" placeholder="">
+          <div class="input-wrapper">
+            <i class="fa-solid fa-tag"></i>
+            <input type="text" id="name" placeholder="Sản phẩm">
+          </div>
         </div>
         
         <div class="form-group">
           <label for="price">Giá bán ($)</label>
-          <input type="text" id="price" placeholder="">
+          <div class="input-wrapper">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <input type="text" id="price" placeholder="0.00">
+          </div>
         </div>
         
         <div class="form-group">
           <label for="quantity">Số lượng kho</label>
-          <input type="number" id="quantity" placeholder="" min="0">
+          <div class="input-wrapper">
+            <i class="fa-solid fa-layer-group"></i>
+            <input type="number" id="quantity" placeholder="0" min="0">
+          </div>
         </div>
 
         <div class="form-group">
           <label>Hình ảnh sản phẩm</label>
           <div class="upload-area">
-            <div class="upload-icon">📸</div>
+            <div class="upload-icon"><i class="fa-regular fa-image"></i></div>
             <div class="upload-text">Kéo thả ảnh tại đây<br><span style="font-size:11px; color:var(--text-muted);">hoặc click để chọn file</span></div>
             <input type="file" id="imageFile" accept="image/*">
             
             <div class="preview-overlay" id="previewBox">
-              <button type="button" class="btn-delete-preview" id="btnRemovePreview">×</button>
+              <button type="button" class="btn-delete-preview" id="btnRemovePreview"><i class="fa-solid fa-xmark"></i></button>
               <img src="" id="imgPreview">
             </div>
           </div>
@@ -395,51 +555,64 @@
         
         <div class="form-group">
           <label for="status">Trạng thái hàng hóa</label>
-          <select id="status">
-            <option value="Còn hàng">Còn hàng</option>
-            <option value="Sắp hết">Sắp hết</option>
-            <option value="Hết hàng">Hết hàng</option>
-          </select>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-circle-info"></i>
+            <select id="status">
+              <option value="Còn hàng">Còn hàng</option>
+              <option value="Sắp hết">Sắp hết</option>
+              <option value="Hết hàng">Hết hàng</option>
+            </select>
+          </div>
         </div>
 
         <div class="action-group">
-          <button class="btn-main add-btn" id="btnAdd">✨ Thêm Sản Phẩm</button>
-          <button class="btn-main update-btn" id="btnUpdate">💾 Lưu Chỉnh Sửa</button>
-          <button class="btn-main restore-btn" id="btnRestore">🔄 Khôi Phục Sản Phẩm</button>
+          <button class="btn-main add-btn" id="btnAdd"><i class="fa-solid fa-wand-magic-sparkles"></i> Thêm Sản Phẩm</button>
+          <button class="btn-main update-btn" id="btnUpdate"><i class="fa-solid fa-floppy-disk"></i> Lưu Chỉnh Sửa</button>
+          <button class="btn-main restore-btn" id="btnRestore"><i class="fa-solid fa-rotate-left"></i> Khôi Phục Sản Phẩm</button>
         </div>
       </div>
 
       <div class="main-content">
         
         <div class="search-container">
-          <input type="text" id="search" placeholder="🔍 Tìm kiếm sản phẩm nhanh theo tên...">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="search" placeholder="Tìm kiếm nhanh theo tên sản phẩm giày...">
         </div>
 
         <div class="stats-cards">
-          <div class="stat-card">
-            <h3>Tổng Sản Phẩm</h3>
-            <p id="totalProducts">0</p>
+          <div class="card-custom stat-card">
+            <div class="stat-info">
+              <h3>Tổng Sản Phẩm</h3>
+              <p id="totalProducts">0</p>
+            </div>
+            <div class="stat-icon icon-total"><i class="fa-solid fa-cubes"></i></div>
           </div>
-          <div class="stat-card" style="border-left: 4px solid var(--success);">
-            <h3>Đang Còn Hàng</h3>
-            <p id="availableProducts">0</p>
+          <div class="card-custom stat-card" style="border-left: 3px solid var(--success);">
+            <div class="stat-info">
+              <h3>Đang Còn Hàng</h3>
+              <p id="availableProducts">0</p>
+            </div>
+            <div class="stat-icon icon-avail"><i class="fa-solid fa-circle-check"></i></div>
           </div>
-          <div class="stat-card" style="border-left: 4px solid var(--danger);">
-            <h3>Đã Hết Hàng</h3>
-            <p id="outProducts">0</p>
+          <div class="card-custom stat-card" style="border-left: 3px solid var(--danger);">
+            <div class="stat-info">
+              <h3>Đã Hết Hàng</h3>
+              <p id="outProducts">0</p>
+            </div>
+            <div class="stat-icon icon-out"><i class="fa-solid fa-circle-exclamation"></i></div>
           </div>
         </div>
 
-        <div class="table-container">
+        <div class="card-custom table-container">
           <table>
             <thead>
               <tr>
-                <th style="width: 90px;">Hình Ảnh</th>
+                <th style="width: 100px;">Hình Ảnh</th>
                 <th>Tên Giày</th>
                 <th>Giá Bán</th>
                 <th>Số Lượng</th>
                 <th>Trạng Thái</th>
-                <th style="width: 140px; text-align: center;">Hành Động</th>
+                <th style="width: 120px; text-align: center;">Hành Động</th>
               </tr>
             </thead>
             <tbody id="productTable"></tbody>
@@ -480,7 +653,6 @@
     const qtyInput = document.getElementById("quantity");
     const statusSelect = document.getElementById("status");
 
-    // LOGIC MỚI: Tự động đổi trạng thái Select Box khi Admin nhập số lượng
     qtyInput.addEventListener("input", function() {
       const qty = Number(this.value);
       if (qty <= 0) {
@@ -537,7 +709,6 @@
         const product = productsObj[id];
         total++;
         
-        // KIỂM TRA ĐỒNG BỘ: Nếu DB có lỗi số lượng = 0 nhưng status vẫn là "Còn hàng" thì sẽ tự ép hiển thị chuẩn
         let currentStatus = product.status;
         if (Number(product.quantity) <= 0) {
           currentStatus = "Hết hàng";
@@ -552,14 +723,14 @@
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td><img src="${product.image}" class="product-img" onerror="this.src='https://placehold.co/80'"></td>
-          <td style="font-weight: 600; color: var(--text-main);">${product.name}</td>
-          <td style="font-weight: 600; color: var(--primary);">$${product.price}</td>
-          <td><span style="background: #334155; padding: 4px 8px; border-radius: 6px; font-weight: 500; color:#f1f5f9;">${product.quantity} đôi</span></td>
+          <td style="font-weight: 600; color: #fff;">${product.name}</td>
+          <td style="font-weight: 600; color: var(--primary); font-size: 15px;">$${product.price}</td>
+          <td><span style="background: #1e293b; padding: 5px 10px; border-radius: 6px; font-weight: 500; font-size: 13px; border: 1px solid var(--border-color);">${product.quantity} đôi</span></td>
           <td><span class="status-badge ${statusClass}">${currentStatus}</span></td>
           <td>
             <div class="row-actions">
-              <button class="btn-table edit">Sửa</button>
-              <button class="btn-table delete">Xóa</button>
+              <button class="btn-table edit" title="Sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="btn-table delete" title="Xóa"><i class="fa-solid fa-trash-can"></i></button>
             </div>
           </td>
         `;
@@ -590,13 +761,12 @@
         return;
       }
 
-      // Ràng buộc điều kiện hết hàng
       if (quantity <= 0) {
         quantity = 0;
         status = "Hết hàng";
       }
 
-      btnAdd.innerText = "⏳ Đang xử lý...";
+      btnAdd.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý...';
       btnAdd.disabled = true;
 
       const productData = {
@@ -616,7 +786,7 @@
           alert("Lỗi: " + error.message);
         })
         .finally(() => {
-          btnAdd.innerText = "✨ Thêm Sản Phẩm";
+          btnAdd.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Thêm Sản Phẩm';
           btnAdd.disabled = false;
         });
     }
@@ -678,13 +848,12 @@
         return;
       }
 
-      // Kiểm tra ép buộc trạng thái "Hết hàng" nếu số lượng bằng hoặc nhỏ hơn 0
       if (quantity <= 0) {
         quantity = 0;
         status = "Hết hàng";
       }
 
-      btnUpdate.innerText = "⏳ Đang cập nhật...";
+      btnUpdate.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang cập nhật...';
       btnUpdate.disabled = true;
 
       set(ref(db, `products/${editId}`), {
@@ -699,7 +868,7 @@
         alert("Cập nhật thông tin thành công!");
       }).catch(err => alert("Lỗi: " + err.message))
       .finally(() => {
-        btnUpdate.innerText = "💾 Lưu Chỉnh Sửa";
+        btnUpdate.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Lưu Chỉnh Sửa';
         btnUpdate.disabled = false;
       });
     }
